@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验推荐 - SparkLight</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: white;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 12px 16px;
+            font-size: 16px;
+            color: #6b7280;
+            position: relative;
+        }
+        .tab.active {
+            color: #4F46E5;
+            font-weight: bold;
+        }
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4F46E5;
+        }
+        .experiment-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #f3f4f6;
+        }
+        .experiment-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .experiment-tag {
+            display: inline-block;
+            background-color: #EEF2FF;
+            color: #4F46E5;
+            border-radius: 20px;
+            padding: 4px 12px;
+            margin-right: 8px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+        .experiment-description {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .experiment-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">探索实验</div>
+            <div class="subtitle">为你推荐的个性化微型实验，每个只需15分钟</div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active">推荐</div>
+            <div class="tab">最新</div>
+            <div class="tab">收藏</div>
+            <div class="tab">已完成</div>
+        </div>
+        
+        <div class="experiment-card">
+            <div class="experiment-title">代码诗：用编程术语创作三行俳句</div>
+            <div>
+                <span class="experiment-tag">技术诗人</span>
+                <span class="experiment-tag">创造性实验</span>
+            </div>
+            <div class="experiment-description">
+                将编程概念与诗歌创作结合，探索技术语言的诗意美感，培养跨界思维能力。
+            </div>
+            <div class="experiment-meta">
+                <div>难度：⭐⭐</div>
+                <div>预计时间：15分钟</div>
+            </div>
+        </div>
+        
+        <div class="experiment-card">
+            <div class="experiment-title">算法伦理：设计一个公平的推荐系统</div>
+            <div>
+                <span class="experiment-tag">算法活动家</span>
+                <span class="experiment-tag">技术实践</span>
+            </div>
+            <div class="experiment-description">
+                思考如何在推荐算法中平衡效率与公平，减少偏见，提升技术伦理意识。
+            </div>
+            <div class="experiment-meta">
+                <div>难度：⭐⭐⭐</div>
+                <div>预计时间：20分钟</div>
+            </div>
+        </div>
+        
+        <div class="experiment-card">
+            <div class="experiment-title">接口美学：重新设计一个日常App界面</div>
+            <div>
+                <span class="experiment-tag">界面哲学家</span>
+                <span class="experiment-tag">设计实验</span>
+            </div>
+            <div class="experiment-description">
+                分析并重新设计一个你常用App的界面，探索交互设计与用户体验的平衡点。
+            </div>
+            <div class="experiment-meta">
+                <div>难度：⭐⭐</div>
+                <div>预计时间：15分钟</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

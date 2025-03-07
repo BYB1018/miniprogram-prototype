@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成就墙 - SparkLight</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: white;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 12px 16px;
+            font-size: 16px;
+            color: #6b7280;
+            position: relative;
+        }
+        .tab.active {
+            color: #4F46E5;
+            font-weight: bold;
+        }
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4F46E5;
+        }
+        .achievement-card {
+            display: flex;
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #f3f4f6;
+        }
+        .achievement-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #EEF2FF;
+            color: #4F46E5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        .achievement-icon.locked {
+            background-color: #F3F4F6;
+            color: #9CA3AF;
+        }
+        .achievement-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        .achievement-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        .achievement-date {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .achievement-progress {
+            width: 100%;
+            height: 6px;
+            background-color: #F3F4F6;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #9CA3AF;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">成就墙</div>
+            <div class="subtitle">记录你的成长与突破</div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active">已解锁</div>
+            <div class="tab">进行中</div>
+            <div class="tab">全部</div>
+        </div>
+        
+        <div class="achievements-container">
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div>
+                    <div class="achievement-title">技术诗人</div>
+                    <div class="achievement-description">完成3次代码与艺术融合的实验</div>
+                    <div class="achievement-date">2023年10月15日解锁</div>
+                </div>
+            </div>
+            
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div>
+                    <div class="achievement-title">创意火花</div>
+                    <div class="achievement-description">连续7天完成创造性实验</div>
+                    <div class="achievement-date">2023年10月10日解锁</div>
+                </div>
+            </div>
+            
+            <div class="achievement-card">
+                <div class="achievement-icon locked">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div>
+                    <div class="achievement-title">认知边界开拓者</div>
+                    <div class="achievement-description">完成5次跨领域思维挑战</div>
+                    <div class="achievement-progress">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="achievement-card">
+                <div class="achievement-icon locked">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div>
+                    <div class="achievement-title">实验大师</div>
+                    <div class="achievement-description">完成30次微型实验</div>
+                    <div class="achievement-progress">
+                        <div class="progress-fill" style="width: 40%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

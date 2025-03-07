@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkLight - 点亮你的创造力</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 全局滚动条隐藏 */
+        html, body, .container, .phone-frame, .app-content, iframe {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        .container::-webkit-scrollbar,
+        .phone-frame::-webkit-scrollbar,
+        .app-content::-webkit-scrollbar,
+        iframe::-webkit-scrollbar {
+            display: none !important;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+            gap: 30px;
+            overflow-y: auto;
+        }
+        .frame-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1f2937;
+            text-align: center;
+        }
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin: 0 auto;
+        }
+        .status-bar {
+            height: 47px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: black;
+            font-size: 14px;
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .time {
+            font-weight: 600;
+            color: black;
+        }
+        .status-bar-right {
+            display: flex;
+            align-items: center;
+            color: black;
+        }
+        .battery {
+            width: 26px;
+            height: 13px;
+            border: 1px solid black;
+            border-radius: 3px;
+            padding: 1px;
+            position: relative;
+            margin-left: 5px;
+        }
+        .battery:after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 4px;
+            background-color: black;
+            right: -4px;
+            top: 4px;
+            border-radius: 0 2px 2px 0;
+        }
+        .battery-level {
+            height: 100%;
+            width: 60%;
+            background-color: black;
+            border-radius: 1px;
+        }
+        .app-content {
+            height: calc(100% - 47px - 83px);
+            overflow-y: auto;
+            background-color: white;
+            position: relative;
+        }
+        .app-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .tab-bar {
+            height: 83px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6b7280;
+            font-size: 10px;
+            padding: 8px 0;
+        }
+        .tab-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .tab-item.active {
+            color: #4f46e5;
+        }
+        
+        /* 欢迎页和价值观页特殊样式 */
+        .welcome-app-content {
+            height: calc(100% - 47px);
+            overflow-y: auto;
+            background-color: white;
+            position: relative;
+        }
+        
+        /* 欢迎页样式 */
+        .welcome-container {
+            height: 100%;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px 30px 40px;
+        }
+        .welcome-logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .welcome-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .welcome-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        .welcome-features {
+            margin: 40px 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .start-btn {
+            background-color: white;
+            color: #4f46e5;
+            text-align: center;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        
+        /* 价值观选择页样式 */
+        .values-container {
+            padding: 20px 0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .category {
+            margin-bottom: 25px;
+        }
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .value-item {
+            background-color: #f3f4f6;
+            padding: 12px 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .value-item.selected {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            font-weight: 500;
+        }
+        .footer {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .selected-count {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        .next-btn {
+            width: 90%;
+            height: 50px;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px auto;
+            display: block;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .next-btn:hover {
+            background-color: #4338ca;
+        }
+        
+        .next-btn:active {
+            background-color: #3730a3;
+            transform: scale(0.98);
+        }
+        
+        /* 个人标签页样式 */
+        .header {
+            margin-bottom: 25px;
+        }
+        .tag-card {
+            background-color: #f3f4f6;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .main-tag {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+        .tag-description {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .sub-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .sub-tag {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .related-tags {
+            margin-bottom: 25px;
+        }
+        .related-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+        .related-tag {
+            display: inline-block;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .action-button {
+            background-color: #4f46e5;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .secondary-button {
+            border: 1px solid #d1d5db;
+            color: #4b5563;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        /* 实验页样式 */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f3f4f6;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .search-icon {
+            color: #9ca3af;
+            margin-right: 10px;
+        }
+        .search-input {
+            border: none;
+            background: transparent;
+            flex-grow: 1;
+            color: #4b5563;
+            font-size: 14px;
+        }
+        .filter-tags {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+        .filter-tag {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        .filter-tag.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .experiment-card {
+            background-color: #f9fafb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .experiment-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .experiment-tag {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 6px;
+            margin-bottom: 10px;
+        }
+        .experiment-description {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .experiment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        /* 实验详情页样式 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            color: #4b5563;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .tag {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .description {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        .step {
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        .step-description {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .example {
+            background-color: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .mt-auto {
+            margin-top: auto;
+        }
+        
+        /* 实验记录页样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .form-textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            color: #4b5563;
+            resize: none;
+        }
+        .rating {
+            display: flex;
+            gap: 5px;
+        }
+        .rating-star {
+            color: #d1d5db;
+            font-size: 24px;
+        }
+        .rating-star.active {
+            color: #fbbf24;
+        }
+        
+        /* 能力矩阵页样式 */
+        .ability-category {
+            margin-bottom: 25px;
+        }
+        .ability-category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        .ability-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .ability-name {
+            font-size: 14px;
+            color: #4b5563;
+            flex: 1;
+        }
+        .ability-level {
+            display: flex;
+            align-items: center;
+            flex: 2;
+        }
+        .level-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            width: 80%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .level-fill {
+            height: 100%;
+            background-color: #4f46e5;
+            border-radius: 4px;
+        }
+        .level-text {
+            font-size: 12px;
+            color: #6b7280;
+            width: 40px;
+            text-align: right;
+        }
+        
+        /* 成就墙页样式 */
+        .achievement-card {
+            display: flex;
+            background-color: #f9fafb;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        .achievement-icon.locked {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+        }
+        .achievement-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        .achievement-description {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        .achievement-progress {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            width: 100%;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4f46e5;
+            border-radius: 3px;
+        }
+        
+        /* 个人档案页样式 */
+        .profile-header {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 0 0 20px 20px;
+            margin: -20px -20px 20px;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-bio {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .menu-section {
+            margin-bottom: 20px;
+        }
+        .section-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f3f4f6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        .menu-text {
+            flex-grow: 1;
+            font-size: 16px;
+            color: #374151;
+        }
+        .menu-arrow {
+            color: #9ca3af;
+        }
+        
+        /* 设置页样式 */
+        .setting-section {
+            margin-bottom: 25px;
+        }
+        .setting-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .setting-label {
+            font-size: 16px;
+            color: #374151;
+        }
+        .setting-value {
+            display: flex;
+            align-items: center;
+        }
+        .toggle {
+            width: 50px;
+            height: 30px;
+            background-color: #e5e7eb;
+            border-radius: 15px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .toggle.active {
+            background-color: #4f46e5;
+        }
+        .toggle-handle {
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            border-radius: 13px;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        .toggle.active .toggle-handle {
+            transform: translateX(20px);
+        }
+        .logout-button {
+            background-color: #fee2e2;
+            color: #ef4444;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 500;
+            margin-top: 30px;
+        }
+        .version {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        /* 修复iframe样式 */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 欢迎页动效增强 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .welcome-title {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .welcome-subtitle {
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .welcome-image {
+            animation: scaleIn 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .welcome-button {
+            animation: slideInRight 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 欢迎页 -->
+        <div>
+            <div class="frame-title">欢迎页</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-app-content">
+                    <iframe src="pages/welcome.html"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 价值观选择 -->
+        <div>
+            <div class="frame-title">价值观选择</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-app-content">
+                    <iframe src="pages/values.html"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 个人标签 -->
+        <div>
+            <div class="frame-title">个人标签</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/tags.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 探索实验 -->
+        <div>
+            <div class="frame-title">探索实验</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/experiments.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 实验详情 -->
+        <div>
+            <div class="frame-title">实验详情</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/experiment-detail.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 实验记录 -->
+        <div>
+            <div class="frame-title">实验记录</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/record.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 能力矩阵 -->
+        <div>
+            <div class="frame-title">能力矩阵</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/abilities.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 成就墙 -->
+        <div>
+            <div class="frame-title">成就墙</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/achievements.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 个人档案 -->
+        <div>
+            <div class="frame-title">个人档案</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/profile.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 设置 -->
+        <div>
+            <div class="frame-title">设置</div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi ml-2"></i>
+                        <div class="battery ml-2">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <iframe src="pages/settings.html"></iframe>
+                </div>
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                        <div>标签</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-flask"></i></div>
+                        <div>实验</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div>能力</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon"><i class="fas fa-user"></i></div>
+                        <div>我的</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
